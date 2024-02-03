@@ -6,7 +6,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { useCallback, useState } from "react";
 
 const Navbar = () => {
-  const [isIconRotated, setIsIconRotated] = useState(false);
+  const [isIconRotated, setIsIconRotated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const toggleIconRotation = () => {
     setIsIconRotated(!isIconRotated);
@@ -25,60 +26,62 @@ const Navbar = () => {
           <LiveTvIcon className='ml-1' />
         </Link>
 
-        <ul className='flex space-x-6 text-white'>
-          <li>
-            <Link href='#' className='hover:text-gray-400 transition'>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href='#' className='hover:text-gray-400 transition'>
-              Movies
-            </Link>
-          </li>
-          <li>
-            <Link href='#' className='hover:text-gray-400 transition'>
-              Web Series
-            </Link>
-          </li>
-          <li>
-            <Link href='#' className='hover:text-gray-400 transition'>
-              My List
-            </Link>
-          </li>
-          <li>
-            <Link href='#' className='hover:text-gray-400 transition'>
-              Browse by Language
-            </Link>
-          </li>
-          <div
-            className={`cursor-pointer transition-transform transform ${iconRotationClass}`}
-            onClick={toggleIconRotation}
-          >
-            <SettingsIcon />
-          </div>
+        {isAuthenticated && (
+          <ul className='flex space-x-6 text-white'>
+            <li>
+              <Link href='#' className='hover:text-gray-400 transition'>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link href='#' className='hover:text-gray-400 transition'>
+                Movies
+              </Link>
+            </li>
+            <li>
+              <Link href='#' className='hover:text-gray-400 transition'>
+                Web Series
+              </Link>
+            </li>
+            <li>
+              <Link href='#' className='hover:text-gray-400 transition'>
+                My List
+              </Link>
+            </li>
+            <li>
+              <Link href='#' className='hover:text-gray-400 transition'>
+                Browse by Language
+              </Link>
+            </li>
+            <div
+              className={`cursor-pointer transition-transform transform ${iconRotationClass}`}
+              onClick={toggleIconRotation}
+            >
+              <SettingsIcon />
+            </div>
 
-          {isIconRotated && (
-            <ul className='absolute right-6 mt-8 bg-white shadow-lg rounded-md text-black z-50'>
-              <li className='w-full hover:bg-slate-300 px-6 py-3 rounded-t-md'>
-                <Link href='/profiles' onClick={toggleIconRotation}>
-                  Change Profile
-                </Link>
-              </li>
-              <hr className='border-t border-gray-300 w-full' />
-              <li className='w-full hover:bg-slate-300 px-6 py-3 rounded-b-md'>
-                <button
-                  onClick={() => {
-                    toggleIconRotation();
-                    //Call the logout function
-                  }}
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
-          )}
-        </ul>
+            {isIconRotated && (
+              <ul className='absolute right-6 mt-8 bg-white shadow-lg rounded-md text-black z-50'>
+                <li className='w-full hover:bg-slate-300 px-6 py-3 rounded-t-md'>
+                  <Link href='/profiles' onClick={toggleIconRotation}>
+                    Change Profile
+                  </Link>
+                </li>
+                <hr className='border-t border-gray-300 w-full' />
+                <li className='w-full hover:bg-slate-300 px-6 py-3 rounded-b-md'>
+                  <button
+                    onClick={() => {
+                      toggleIconRotation();
+                      //Call the logout function
+                    }}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            )}
+          </ul>
+        )}
       </div>
     </nav>
   );

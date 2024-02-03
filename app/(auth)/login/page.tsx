@@ -20,10 +20,10 @@ export default function Login() {
 
   return (
     <div className='min-h-screen flex items-center justify-center'>
-      <div className='bg-black p-5 rounded-lg shadow-lg w-96'>
-        <h2 className='text-3xl font-bold mb-6 text-center'>Login</h2>
+      <div className='bg-black p-5 rounded-lg shadow-lg w-1/3'>
+        <h2 className='text-5xl font-bold mb-10 text-center'>Login</h2>
         <form>
-          <div className='mb-4'>
+          <div className='mb-5'>
             <label htmlFor='email' className='block text-white'>
               Email
             </label>
@@ -38,7 +38,7 @@ export default function Login() {
               required
             />
           </div>
-          <div className='mb-6'>
+          <div className='mb-5'>
             <label htmlFor='password' className='block text-white'>
               Password
             </label>
@@ -55,7 +55,7 @@ export default function Login() {
           </div>
           <button
             type='submit'
-            className='block m-auto bg-white text-black hover:bg-gray-200 py-2 px-4 rounded-md hover:bg-opacity-80 transition duration-100'
+            className='font-semibold block m-auto bg-white text-black hover:bg-gray-200 py-2 px-4 rounded-md hover:bg-opacity-80 transition duration-100'
             onClick={login}
           >
             Login

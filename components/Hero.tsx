@@ -1,14 +1,8 @@
 "use client";
 
+import Link from "next/link";
+
 const Hero = () => {
-  const handleScroll = () => {
-    console.log("Clicking on the button");
-    const element = document.getElementById("contwatch");
-    element?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
   return (
     <>
       <video
@@ -28,12 +22,12 @@ const Hero = () => {
         <p className='text-lg mb-6'>
           Watch your favorite movies and TV shows in high quality.
         </p>
-        <button
-          onClick={handleScroll}
-          className='bg-blue-500 hover:bg-blue-400 text-white py-2 px-6 rounded-full text-lg shadow-lg transition duration-300'
+        <Link
+          href={"/register"}
+          className='block bg-blue-500 hover:bg-blue-400 text-white py-2 px-6 rounded-full text-lg shadow-lg transition duration-300'
         >
           Start Watching
-        </button>
+        </Link>
       </div>
     </>
   );

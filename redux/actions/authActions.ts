@@ -4,10 +4,16 @@ const URL = `/api/auth`;
 
 export const actionLogin = async (email: string, password: string) => {
   try {
-    const data = await axios.post(`${URL}/login`, {
-      email,
-      password,
-    });
+    const data = await axios.post(
+      `${URL}/login`,
+      {
+        email,
+        password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
     console.log(data);
     // return data;
   } catch (error) {
@@ -26,8 +32,8 @@ export const actionRegister = async (
       name,
       password,
     });
-    console.log(data);
-    // return data;
+
+    return data;
   } catch (error) {
     console.log(error);
   }
