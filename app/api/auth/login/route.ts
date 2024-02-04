@@ -38,9 +38,9 @@ export async function POST(request: NextRequest) {
         { status: 402 }
       );
 
-    const token = await new SignJWT({ id: userExists.id })
+    const token = await new SignJWT()
       .setProtectedHeader({ alg: "HS256" })
-      .setJti(nanoid())
+      .setJti(userExists.id)
       .setIssuedAt()
       .setExpirationTime("10h")
       .sign(new TextEncoder().encode(process.env.JWT_TOKEN));

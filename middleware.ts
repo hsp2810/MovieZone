@@ -2,24 +2,14 @@ import type { NextRequest } from "next/server";
 import { authRoutes, privateRoutes, publicRoutes } from "./routes";
 import { jwtVerify, SignJWT } from "jose";
 import prismadb from "@/prisma/setup";
+import { Authenticate } from "./lib/server/Authenticate";
 
 export async function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname);
   const isPrivateRoute = privateRoutes.includes(request.nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
 
-  const authCookies = request.cookies.get("authToken")?.value;
-  // console.log("Auth Cookies: ", authCookies);
-
-  let verifiedToken;
-  if (authCookies) {
-    const verified = await jwtVerify(
-      authCookies,
-      new TextEncoder().encode(process.env.JWT_TOKEN)
-    );
-
-    verifiedToken = verified.payload;
-  }
+  const verifiedToken = request.cookies.get("authToken")?.value;
 
   if (isAuthRoute) {
     if (verifiedToken) {

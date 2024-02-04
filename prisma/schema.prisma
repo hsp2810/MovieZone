@@ -13,4 +13,37 @@ model User {
   email          String   @unique
   hashedPassword String?
   activity       String[]
+  isAdmin        Boolean? @default(false)
+}
+
+model Movie {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  moviename   String
+  thumbnail   String
+  writer      String
+  director    String
+  producer    String
+  video       String
+  description String
+  cast        String[]
+  duration    Float
+  country     String?         @default("All")
+  language    String
+  categories  MovieCategory[]
+  likes       Int?            @default(0)
+  license     MovieLicense[]
+}
+
+model MovieCategory {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  categoryname String  @unique
+  Movie        Movie?  @relation(fields: [movieId], references: [id])
+  movieId      String? @db.ObjectId
+}
+
+model MovieLicense {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  licensetag String  @unique
+  Movie      Movie?  @relation(fields: [movieId], references: [id])
+  movieId    String? @db.ObjectId
 }

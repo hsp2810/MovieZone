@@ -4,10 +4,15 @@ import LiveTvIcon from "@mui/icons-material/LiveTv";
 import Link from "next/link";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useCallback, useState } from "react";
+import { User } from "@prisma/client";
+import { IUser } from "@/types";
 
-const Navbar = () => {
+interface NavProps {
+  user: IUser | null;
+}
+
+const Navbar = ({ user }: NavProps) => {
   const [isIconRotated, setIsIconRotated] = useState<boolean>(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const toggleIconRotation = () => {
     setIsIconRotated(!isIconRotated);
@@ -26,7 +31,7 @@ const Navbar = () => {
           <LiveTvIcon className='ml-1' />
         </Link>
 
-        {isAuthenticated && (
+        {user && (
           <ul className='flex space-x-6 text-white'>
             <li>
               <Link href='#' className='hover:text-gray-400 transition'>
