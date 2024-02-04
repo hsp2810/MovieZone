@@ -1,19 +1,26 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { actionLogin } from "@/redux/actions/authActions";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("harshit123@gmail.com");
   const [password, setPassword] = useState("password");
+  const router = useRouter();
 
   const login = useCallback(
     async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
-      await actionLogin(email, password);
+      const data = await actionLogin(email, password);
+      if (!data.success) {
+        // Print the error message
+        return;
+      }
+
+      router.push("/home");
     },
     [email, password]
   );

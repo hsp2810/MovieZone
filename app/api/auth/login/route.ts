@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
 import prismadb from "@/prisma/setup";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
+import { nanoid } from "nanoid";
+import cookie from "cookie";
 
 // console.log("Email and password of the login user is: ", email, password);
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
   try {
+    console.log("Hi");
     const { email, password } = await request.json();
     if (!email || !password)
       return NextResponse.json(
@@ -36,18 +38,30 @@ export async function POST(request: NextRequest, response: NextResponse) {
         { status: 402 }
       );
 
-    const token = jwt.sign(userExists.id, process.env.JWT_TOKEN as string);
-    cookies().set("moviezoneauthcookies", token, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60 * 10,
-    });
+    const token = await new SignJWT({ id: userExists.id })
+      .setProtectedHeader({ alg: "HS256" })
+      .setJti(nanoid())
+      .setIssuedAt()
+      .setExpirationTime("10h")
+      .sign(new TextEncoder().encode(process.env.JWT_TOKEN));
+
+    console.log(token);
 
     return NextResponse.json(
       { success: true, message: "Login Successful" },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "Set-Cookie": cookie.serialize("authToken", token, {
+            httpOnly: true,
+            path: "/",
+            secure: process.env.NODE_ENV === "production",
+          }),
+        },
+      }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

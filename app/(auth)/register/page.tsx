@@ -3,17 +3,26 @@
 import React, { useCallback, useState } from "react";
 import Link from "next/link";
 import { actionRegister } from "@/redux/actions/authActions";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
   const [name, setName] = useState("Harshit");
   const [email, setEmail] = useState("harshit123@gmail.com");
   const [password, setPassword] = useState("password");
+  const router = useRouter();
 
   const register = useCallback(
     async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
 
       const data = await actionRegister(email, name, password);
+
+      if (!data.success) {
+        // Print the error message
+        return;
+      }
+
+      router.push("/");
     },
     [name, email, password]
   );
